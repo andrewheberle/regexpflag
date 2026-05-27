@@ -47,7 +47,7 @@ func (f *Flag) Set(expr string) error {
 }
 
 // String is requried to satisfy the [pflag.Value] interface
-func (f *Flag) String() string {
+func (f Flag) String() string {
 	return f.r.String()
 }
 
@@ -57,6 +57,6 @@ func (f Flag) Type() string {
 }
 
 // Regexp returns the underlying [regexp.Regexp]
-func (f *Flag) Regexp() *regexp.Regexp {
+func (f Flag) Regexp() *regexp.Regexp {
 	return f.r
 }

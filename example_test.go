@@ -1,6 +1,7 @@
 package regexpflag_test
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
@@ -8,7 +9,7 @@ import (
 	"github.com/spf13/pflag"
 )
 
-func ExampleMustCompile() {
+func ExampleMustCompile_pflag() {
 	re := regexpflag.MustCompile(".*")
 
 	fs := pflag.NewFlagSet("example", pflag.ExitOnError)
@@ -19,7 +20,7 @@ func ExampleMustCompile() {
 	// Output: Regexp is ".*"
 }
 
-func ExampleCompile() {
+func ExampleCompile_pflag() {
 	re, err := regexpflag.Compile(".*")
 	if err != nil {
 		panic(err)
@@ -28,6 +29,19 @@ func ExampleCompile() {
 	fs := pflag.NewFlagSet("example", pflag.ExitOnError)
 	fs.Var(re, "regexp", "Regular expression")
 	fs.Parse([]string{})
+
+	fmt.Printf("Regexp is %q\n", re)
+	// Output: Regexp is ".*"
+}
+
+func ExampleCompile_flag() {
+	re, err := regexpflag.Compile(".*")
+	if err != nil {
+		panic(err)
+	}
+
+	flag.Var(re, "regexp", "Regular expression")
+	flag.Parse()
 
 	fmt.Printf("Regexp is %q\n", re)
 	// Output: Regexp is ".*"
@@ -51,7 +65,7 @@ func ExampleFlag_Type() {
 	//		--regexp regexp   Regular expression (default .*)
 }
 
-func ExampleFlag_Regexp() {
+func ExampleFlag_Regexp_string() {
 	re, err := regexpflag.Compile(".*")
 	if err != nil {
 		panic(err)

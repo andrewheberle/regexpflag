@@ -16,6 +16,8 @@ accessed in yor code using `Regexp()`
 
 ## Example
 
+### flag
+
 ```go
 package main
 
@@ -30,6 +32,27 @@ func main() {
 
 	flag.Var(re, "regexp", "Regular expression")
 	flag.Parse()
+
+	fmt.Printf("Regexp is %q\n", re)
+	// Output: Regexp is ".*"
+}
+```
+
+### pflag
+
+```go
+package main
+
+import (
+    "github.com/andrewheberle/regexpflag"
+    "github.com/spf13/pflag"
+)
+
+func main() {
+	re := regexpflag.MustCompile(".*")
+
+	pflag.Var(re, "regexp", "Regular expression")
+	pflag.Parse()
 
 	fmt.Printf("Regexp is %q\n", re)
 	// Output: Regexp is ".*"
