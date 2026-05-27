@@ -1,7 +1,6 @@
 package regexpflag_test
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
@@ -12,14 +11,9 @@ import (
 func ExampleMustCompile() {
 	re := regexpflag.MustCompile(".*")
 
-	flag.Var(re, "regexp", "Regular expression")
-	//
-	// In this example flag.Parse() is commented out as this forms part of the tests
-	// of this module, so parsing the command line flags is disabled.
-	//
-	// In a real program you would need to call flag.Parse()
-	//
-	// flag.Parse()
+	fs := pflag.NewFlagSet("example", pflag.ExitOnError)
+	fs.Var(re, "regexp", "Regular expression")
+	fs.Parse([]string{})
 
 	fmt.Printf("Regexp is %q\n", re)
 	// Output: Regexp is ".*"
@@ -31,14 +25,9 @@ func ExampleCompile() {
 		panic(err)
 	}
 
-	flag.Var(re, "regexp", "Regular expression")
-	//
-	// In this example flag.Parse() is commented out as this forms part of the tests
-	// of this module, so parsing the command line flags is disabled.
-	//
-	// In a real program you would need to call flag.Parse()
-	//
-	// flag.Parse()
+	fs := pflag.NewFlagSet("example", pflag.ExitOnError)
+	fs.Var(re, "regexp", "Regular expression")
+	fs.Parse([]string{})
 
 	fmt.Printf("Regexp is %q\n", re)
 	// Output: Regexp is ".*"
@@ -71,5 +60,23 @@ func ExampleFlag_Regexp() {
 	fmt.Println(re.Regexp().String())
 	// Output:
 	// .*
-	// .*
+}
+
+func ExampleFlag_Regexp_find() {
+	re, err := regexpflag.Compile("^why ([a-z]*) there$")
+	if err != nil {
+		panic(err)
+	}
+
+	match := re.Regexp().FindStringSubmatch("why hello there")
+	if match == nil {
+		panic("no match")
+	}
+
+	if len(match) != 2 {
+		panic("didn't get submatch")
+	}
+	fmt.Printf("%s", match[1])
+	// Output:
+	// hello
 }
