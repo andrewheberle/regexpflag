@@ -35,7 +35,7 @@ func Compile(expr string) (*Flag, error) {
 	return &Flag{r}, nil
 }
 
-// Set is requried to satisfy the [pflag.Value] interface
+// Set is required to satisfy the [pflag.Value] interface
 func (f *Flag) Set(expr string) error {
 	r, err := regexp.Compile(expr)
 	if err != nil {
@@ -46,12 +46,12 @@ func (f *Flag) Set(expr string) error {
 	return nil
 }
 
-// String is requried to satisfy the [pflag.Value] interface
+// String is required to satisfy the [pflag.Value] interface
 func (f Flag) String() string {
 	return f.r.String()
 }
 
-// String is requried to satisfy the [pflag.Value] interface
+// String is required to satisfy the [pflag.Value] interface
 func (f Flag) Type() string {
 	return "regexp"
 }
